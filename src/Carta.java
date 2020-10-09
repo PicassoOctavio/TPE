@@ -11,30 +11,29 @@ public class Carta {
 		atributos = new ArrayList<Atributo>();
 	}
 	
-	
-	private boolean esDelMismoTipo(Carta unaCarta) {
-		ArrayList<String> lista1 = unaCarta.getNombreAtributos();
-		ArrayList<String> lista2 = this.getNombreAtributos();
-		for(int i=0; i<lista1.size();i++) {
-			Atributo unAtributo = atributos.get(i);
-			if(lista1.get(i).equals(lista2.get(i)))	
+	protected boolean esDelMismoTipo(Carta unaCarta) { 		//CONSULTAR SI ESTA BIEN!
+		ArrayList<String> listaUno = new ArrayList<String>();
+		ArrayList<String> listaDos = new ArrayList<String>();
+		listaUno = unaCarta.getNombreAtributos();
+		listaDos = this.getNombreAtributos();
+		int contador = 0;
+		for(int i =0; i < listaUno.size(); i++) {
+			if(!listaUno.get(i).equals(listaDos.get(contador)))//donde defino el equals si son strings?
+				return false;									//no son objects atributo
+			else {
+				contador++;
+				i = 0;
+			}
 		}
+		return true;	
 	}
-	private ArrayList<String> getNombreAtributos(){
+	
+	protected ArrayList<String> getNombreAtributos(){
 		ArrayList<String> nombres = new ArrayList<String>();
-		for(int i= 0; i<atributos.size(); i++) {
+		for(int i= 0; i < atributos.size(); i++) {
 			nombres.add(atributos.get(i).getNombre());
 		}
 		return nombres;
-	}
-	
-	public Atributo getAtributo(String nombre) {
-		for(int i= 0; i<atributos.size(); i++) {
-			Atributo atributoAux = atributos.get(i);
-			if(atributoAux.getNombre().equals(nombre))
-				return atributoAux;
-		}
-		return null;
 	}
 	
 	public void addAtributo(Atributo unAtributo) {
@@ -42,6 +41,31 @@ public class Carta {
 			atributos.add(unAtributo);
 		}
 	}
+	
+	public boolean equals(Object o) { //EQUALS ATRIBUTO
+		try {
+			Carta unaCarta = (Carta) o;
+			if(unaCarta.getNombrePersonaje() == this.nombrePersonaje)
+				return true;
+			else
+				return false;
+		}
+		catch(Exception exc){
+			return false;
+		}
+	}
+
+	public ArrayList<Atributo> getAtributos() {
+		return new ArrayList<Atributo> (this.atributos);
+	}
+	
+	/*for(int i= 0; i<atributos.size(); i++) {
+	Atributo atributoAux = atributos.get(i);
+	if(atributoAux.getNombre().equals(nombre))
+		return atributoAux;
+	}
+	return null;*/
+	
 	
 	//GETS AND SETS
 	public int getNroCarta() {

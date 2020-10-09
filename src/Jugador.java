@@ -3,17 +3,35 @@ import java.util.ArrayList;
 public class Jugador {
 	private int jugador;
 	private boolean turno;
-	private Mazo mazo;
+	private ArrayList<Carta> cartasJugador;
+	//private Mazo mazo;
 	
-	public Jugador() {
-		
+	public Jugador(int jugador, boolean turno) {
+		this.jugador = jugador;
+		this.turno = turno;
+		//this.mazo = mazo;
 	}
 	
+	private void recibirCartas(Carta unaCarta) {
+		cartasJugador.add(unaCarta);
+	}
 	
+	private Carta elegirPrimerCarta() {
+		return cartasJugador.get(0);
+	}
 	
-	//getPrimerCarta()
+	protected Atributo elegirAtributoRandom() {
+		Carta cartaAux = elegirPrimerCarta();
+		ArrayList<Atributo> atributos = cartaAux.getAtributos();
+		int i = (int) Math.floor(Math.random() * atributos.size());
+		return atributos.get(i);
+	}
 	
-	//getAtributoAleatorio()
+	private int valorAtributoSeleccionado(String atributo) {
+		Carta carta = elegirPrimerCarta();
+		carta.
+	}
 	
 	//colocarCartaAlFinal()->MAZO
+	
 }
