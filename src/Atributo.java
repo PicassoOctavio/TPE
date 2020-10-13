@@ -20,6 +20,7 @@ public class Atributo {
 			return false;
 		}
 	}
+
 	
 	//SETS AND GETS
 	public String getNombre() {

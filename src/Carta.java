@@ -20,14 +20,22 @@ public class Carta {
 		for(int i =0; i < listaUno.size(); i++) {
 			if(!listaUno.get(i).equals(listaDos.get(contador)))//donde defino el equals si son strings?
 				return false;									//no son objects atributo
-			else {
+			else
 				contador++;
 				i = 0;
-			}
 		}
 		return true;	
 	}
 	
+	protected int getValorAtributoPorNombre(String atributo) {
+		for(int i=0; i<atributos.size(); i++) {
+			Atributo atributoAux = atributos.get(i);
+			if(atributoAux.getNombre().equals(atributo))
+				return atributoAux.getValor();
+		}
+		return -1;
+	}
+
 	protected ArrayList<String> getNombreAtributos(){
 		ArrayList<String> nombres = new ArrayList<String>();
 		for(int i= 0; i < atributos.size(); i++) {
