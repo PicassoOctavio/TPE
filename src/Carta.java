@@ -1,33 +1,37 @@
 import java.util.ArrayList;
 
 public class Carta {
-	private int nroCarta;
 	private String nombrePersonaje;
 	private ArrayList<Atributo> atributos;
 	
-	public Carta(int nroCarta, String nombrePersonaje) {
-		this.nroCarta = nroCarta;
+	public Carta(String nombrePersonaje) {
 		this.nombrePersonaje = nombrePersonaje;
 		atributos = new ArrayList<Atributo>();
 	}
+	//por cada atributo pregunto a la carta si tiene atributo
 	
-	protected boolean esDelMismoTipo(Carta unaCarta) { 		//CONSULTAR SI ESTA BIEN!
+	public String toString() {
+		return this.getNombrePersonaje().toUpperCase() + "    "+ atributos.toString();
+	}
+	
+	public boolean esDelMismoTipo(Carta unaCarta) { 		//CONSULTAR SI ESTA BIEN!
 		ArrayList<String> listaUno = new ArrayList<String>();
 		ArrayList<String> listaDos = new ArrayList<String>();
 		listaUno = unaCarta.getNombreAtributos();
 		listaDos = this.getNombreAtributos();
-		int contador = 0;
 		for(int i =0; i < listaUno.size(); i++) {
-			if(!listaUno.get(i).equals(listaDos.get(contador)))//donde defino el equals si son strings?
+			if(!listaDos.contains(listaUno.get(i)))
 				return false;									//no son objects atributo
-			else
+			//if(!listaUno.get(i).equals(listaDos.get(contador)))//donde defino el equals si son strings?
+			/*else {
 				contador++;
 				i = 0;
+			}// CORREGIR*/
 		}
 		return true;	
 	}
 	
-	protected int getValorAtributoPorNombre(String atributo) {
+	public int getValorAtributoPorNombre(String atributo) {
 		for(int i=0; i<atributos.size(); i++) {
 			Atributo atributoAux = atributos.get(i);
 			if(atributoAux.getNombre().equals(atributo))
@@ -36,7 +40,7 @@ public class Carta {
 		return -1;
 	}
 
-	protected ArrayList<String> getNombreAtributos(){
+	public ArrayList<String> getNombreAtributos(){
 		ArrayList<String> nombres = new ArrayList<String>();
 		for(int i= 0; i < atributos.size(); i++) {
 			nombres.add(atributos.get(i).getNombre());
@@ -66,24 +70,8 @@ public class Carta {
 	public ArrayList<Atributo> getAtributos() {
 		return new ArrayList<Atributo> (this.atributos);
 	}
-	
-	/*for(int i= 0; i<atributos.size(); i++) {
-	Atributo atributoAux = atributos.get(i);
-	if(atributoAux.getNombre().equals(nombre))
-		return atributoAux;
-	}
-	return null;*/
-	
-	
+		
 	//GETS AND SETS
-	public int getNroCarta() {
-		return nroCarta;
-	}
-
-	public void setNroCarta(int nroCarta) {
-		this.nroCarta = nroCarta;
-	}
-
 	public String getNombrePersonaje() {
 		return nombrePersonaje;
 	}
@@ -91,5 +79,4 @@ public class Carta {
 	public void setNombrePersonaje(String nombrePersonaje) {
 		this.nombrePersonaje = nombrePersonaje;
 	}
-	
 }

@@ -22,6 +22,10 @@ public class Atributo {
 	}
 
 	
+	public String toString() {
+		return this.getNombre() + ": " + this.getValor()+" ";
+	}
+	
 	//SETS AND GETS
 	public String getNombre() {
 		return nombre;

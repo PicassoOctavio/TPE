@@ -38,7 +38,7 @@ public class VisorMazo {
     }
 
     public static void main(String[] args) {
-        String mazoPath = "./superheroes.json";
+        String mazoPath = "./src/superheroes.json";
         VisorMazo.mostrarMazo(mazoPath);
     }
 
