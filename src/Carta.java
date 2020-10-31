@@ -3,10 +3,12 @@ import java.util.ArrayList;
 public class Carta {
 	private String nombrePersonaje;
 	private ArrayList<Atributo> atributos;
+	private ElementoPocima pocima;
 	
 	public Carta(String nombrePersonaje) {
 		this.nombrePersonaje = nombrePersonaje;
 		atributos = new ArrayList<Atributo>();
+		this.pocima = null;
 	}
 	//por cada atributo pregunto a la carta si tiene atributo
 	
@@ -79,4 +81,18 @@ public class Carta {
 	public void setNombrePersonaje(String nombrePersonaje) {
 		this.nombrePersonaje = nombrePersonaje;
 	}
+
+	public ElementoPocima getPocima() {
+		return pocima;
+	}
+
+	public void setPocima(ElementoPocima pocima) {
+		this.pocima = pocima;
+	}
+	
+	public boolean tienePocima() {
+		return this.pocima != null;
+	}
+	
 }
+

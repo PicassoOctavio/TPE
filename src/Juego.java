@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Juego {
 	private int cantTurnos;
@@ -7,23 +8,41 @@ public class Juego {
 	private Jugador jugadorTurno;
 	private Jugador jugadorTurnoDos;
 	private Mazo mazo;
+	private boolean seJuegaConPocimas;
+	private ArrayList<ElementoPocima> pocimas;
+	private ArrayList<String> estrategiasJuego;
 	
 	public Juego(int maxTurnos, Jugador jugador1, Jugador jugador2,
-			Mazo mazo, Jugador jugadorTurno, Jugador jugadorTurnoDos) {
+			Mazo mazo, Jugador jugadorTurno, Jugador jugadorTurnoDos, boolean seJuegaConPocimas) {
 		this.cantTurnos = maxTurnos;
 		this.jugador1 = jugador1;
 		this.jugador2 = jugador2;
 		this.mazo = mazo;
 		this.jugadorTurno = jugadorTurno;
 		this.jugadorTurnoDos = jugadorTurnoDos;
+		this.seJuegaConPocimas = seJuegaConPocimas;
+		pocimas = new ArrayList<ElementoPocima>();
+		estrategiasJuego = new ArrayList<String>();
 	}
 	//variable jugador turno que va cambiando segun el turno
 	
 	// INICIA JUEGO
 	public void repartirCartas(){
+		//si se juega con pocimas
+		// y si hay por le menos dos de cada pocima 	
 		mazo.darCartas(jugador1, jugador2);
+		if(seJuegaConPocimas())
+			repartirPocimas();
+	}	
+	
+	public void addEstrategia(String estrategia) {
+		if(estrategia != null) {
+			if(!estrategiasJuego.contains(estrategia))
+				estrategiasJuego.add(estrategia.toLowerCase());
+		}
 	}
-
+	
+	
 	//COMPARAR
 	public void comparar() {
 		while(!juegoTerminado()) {
@@ -31,12 +50,17 @@ public class Juego {
 			nroRonda++;//no lo estamos usando
 			Atributo atributoJPri = jugadorTurno.empezarRonda();
 			String nombreAtributo = atributoJPri.getNombre();
-			int valorAtributoJSeg = jugadorTurnoDos.valorAtributoTurnoDos(atributoJPri);
+			int valorAtributoJSeg = jugadorTurnoDos.valorAtributoTurnoDos(atributoJPri);	
 			int valorAtributoJpri = atributoJPri.getValor();
 			imprimirNroRonda();
 			imprimirSeleccionJturno(jugadorTurno, nombreAtributo);
 			imprimirAccionJugador(jugadorTurno, nombreAtributo, valorAtributoJpri);
 			imprimirAccionJugador(jugadorTurnoDos, nombreAtributo, valorAtributoJSeg);
+			if(jugadorTurno.tienePocima())
+				Pocima pocima = jugadorTurno.aplicarPocima(valorAtributoJpri, nombreAtributo);
+				//valorAtributoJpri = pocima.ge
+			if(jugadorTurno.tienePocima())
+				//valorAtributoJpri = aplicarPocima(valorAtributoJpri, nombreAtributo);
 			Jugador ganador = ganadorRonda(valorAtributoJpri, valorAtributoJSeg);
 			Jugador perdedor = perdedorRonda(valorAtributoJpri, valorAtributoJSeg);
 			if(ganador != null && perdedor != null) {
@@ -100,6 +124,17 @@ public class Juego {
 		else
 			return null;
 	}
+	//----------------------------- POCIMAS --------------------------------------------
+	public void repartirPocimas() {
+		for(int i= 0; i< pocimas.size()-1; i++) {
+			//System.out.println(cartas.get(i));
+			jugadorTurno.addPocimaAcarta(pocimas.get(i));
+			pocimas.remove(i); 
+			jugadorTurnoDos.addPocimaAcarta(pocimas.get(i));
+			pocimas.remove(i);
+		}
+	}
+	
 	//-----------------------------    METODOS IMPRIMIR --------------------------------------------
 	public void imprimirNroRonda() {
 		System.out.println("---------------- RONDA " + nroRonda+" ----------------");
@@ -153,6 +188,29 @@ public class Juego {
 
 	public void setJugadorTurnoDos(Jugador jugadorTurnoDos) {
 		this.jugadorTurnoDos = jugadorTurnoDos;
+	}
+	
+	public void addPocima(Pocima p) {
+		if(p != null) {
+			if(!pocimas.contains(p)) 
+				pocimas.add(p);
+		}
+	}
+	
+	public int getCantPocimas() {
+		return this.pocimas.size();
+	}
+
+	public boolean seJuegaConPocimas() {
+		return seJuegaConPocimas;
+	}
+
+	public void setSeJuegaConPocimas(boolean seJuegaConPocimas) {
+		this.seJuegaConPocimas = seJuegaConPocimas;
+	}
+
+	public ArrayList<String> getEstrategias() {
+		return new ArrayList<String> (this.estrategiasJuego);
 	}
 	
 	//------------- METODOS Y FUNCIONES -------------

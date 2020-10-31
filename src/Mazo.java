@@ -56,7 +56,7 @@ public class Mazo {
 	protected void darCartas(Jugador jugador1, Jugador jugador2) {
 		mezclarCartas();
 		for(int i= 0; i< cartas.size()-1; i++) {// se nos va de rango
-			System.out.println(cartas.get(i));
+			//System.out.println(cartas.get(i));
 			jugador1.recibirCarta(cartas.get(i));
 			cartas.remove(i); 
 			jugador2.recibirCarta(cartas.get(i));
