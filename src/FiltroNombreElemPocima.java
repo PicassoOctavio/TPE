@@ -1,5 +1,5 @@
 
-public class FiltroNombreElemPocima implements Filtro{
+/*public class FiltroNombreElemPocima implements Filtro{
 	private String nombre;
 	
 	public FiltroNombreElemPocima(String nombre) {
@@ -19,4 +19,4 @@ public class FiltroNombreElemPocima implements Filtro{
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-}
+}*/

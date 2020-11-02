@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Juego {
 	private int cantTurnos;
@@ -9,8 +10,8 @@ public class Juego {
 	private Jugador jugadorTurnoDos;
 	private Mazo mazo;
 	private boolean seJuegaConPocimas;
-	private ArrayList<ElementoPocima> pocimas;
-	private ArrayList<String> estrategiasJuego;
+	private ArrayList<Pocima> pocimas;
+	private ArrayList<Estrategia> estrategiasJuego;
 	
 	public Juego(int maxTurnos, Jugador jugador1, Jugador jugador2,
 			Mazo mazo, Jugador jugadorTurno, Jugador jugadorTurnoDos, boolean seJuegaConPocimas) {
@@ -21,10 +22,13 @@ public class Juego {
 		this.jugadorTurno = jugadorTurno;
 		this.jugadorTurnoDos = jugadorTurnoDos;
 		this.seJuegaConPocimas = seJuegaConPocimas;
-		pocimas = new ArrayList<ElementoPocima>();
-		estrategiasJuego = new ArrayList<String>();
+		pocimas = new ArrayList<Pocima>();
+		estrategiasJuego = new ArrayList<Estrategia>();
 	}
 	//variable jugador turno que va cambiando segun el turno
+	
+	//FALTA CONTROLAR EMPATE
+	//FALTA COMPROBAR CANT POCIMAS
 	
 	// INICIA JUEGO
 	public void repartirCartas(){
@@ -32,13 +36,14 @@ public class Juego {
 		// y si hay por le menos dos de cada pocima 	
 		mazo.darCartas(jugador1, jugador2);
 		if(seJuegaConPocimas())
+			mezclarPocimas();
 			repartirPocimas();
 	}	
 	
-	public void addEstrategia(String estrategia) {
+	public void addEstrategia(Estrategia estrategia) {
 		if(estrategia != null) {
-			if(!estrategiasJuego.contains(estrategia))
-				estrategiasJuego.add(estrategia.toLowerCase());
+			estrategiasJuego.add(estrategia);
+			//if(!estrategiasJuego.contains(estrategia))
 		}
 	}
 	
@@ -55,12 +60,25 @@ public class Juego {
 			imprimirNroRonda();
 			imprimirSeleccionJturno(jugadorTurno, nombreAtributo);
 			imprimirAccionJugador(jugadorTurno, nombreAtributo, valorAtributoJpri);
+			if(jugadorTurno.tienePocima()) {
+				int valorAtributoConPocima = jugadorTurno.aplicarPocima(valorAtributoJpri, nombreAtributo);
+				String nombrePocimaJT = jugadorTurno.getNombrePocima();
+				imprimirAccionPocima(nombrePocimaJT, valorAtributoConPocima);
+				valorAtributoJpri = valorAtributoConPocima;
+			}
 			imprimirAccionJugador(jugadorTurnoDos, nombreAtributo, valorAtributoJSeg);
-			if(jugadorTurno.tienePocima())
-				Pocima pocima = jugadorTurno.aplicarPocima(valorAtributoJpri, nombreAtributo);
-				//valorAtributoJpri = pocima.ge
-			if(jugadorTurno.tienePocima())
-				//valorAtributoJpri = aplicarPocima(valorAtributoJpri, nombreAtributo);
+			if(jugadorTurnoDos.tienePocima()) {
+				int valorAtributoConPocimaJTdos = jugadorTurnoDos.aplicarPocima(valorAtributoJSeg, nombreAtributo);
+				String nombrePocimaJTD = jugadorTurnoDos.getNombrePocima();
+				imprimirAccionPocima(nombrePocimaJTD, valorAtributoConPocimaJTdos);
+				valorAtributoJSeg = valorAtributoConPocimaJTdos;
+			}
+			
+			//imprimirAccionJugador(jugadorTurno, nombreAtributo, valorAtributoJpri);
+			//imprimirAccionJugador(jugadorTurnoDos, nombreAtributo, valorAtributoJSeg);
+				
+			// falta la comparacion con atributosModificados con pocima
+			
 			Jugador ganador = ganadorRonda(valorAtributoJpri, valorAtributoJSeg);
 			Jugador perdedor = perdedorRonda(valorAtributoJpri, valorAtributoJSeg);
 			if(ganador != null && perdedor != null) {
@@ -134,6 +152,9 @@ public class Juego {
 			pocimas.remove(i);
 		}
 	}
+	private void mezclarPocimas() {
+		Collections.shuffle(this.pocimas);
+	}
 	
 	//-----------------------------    METODOS IMPRIMIR --------------------------------------------
 	public void imprimirNroRonda() {
@@ -146,6 +167,10 @@ public class Juego {
 	public void imprimirAccionJugador(Jugador j, String a, int valorJpri) {
 		Carta carta = j.elegirPrimerCarta();
 		System.out.println("La carta de "+j.getNombre().toUpperCase()+" es "+carta.getNombrePersonaje()+" con "+a+" "+valorJpri);
+	}
+	
+	public void imprimirAccionPocima(String nombrePocima, int valorAPocima) {
+		System.out.println("se aplicó la pocima "+nombrePocima.toUpperCase()+" valor resultante "+valorAPocima);
 	}
 	
 	public void imprimirGanadorRonda(Jugador ganador) {
@@ -209,8 +234,8 @@ public class Juego {
 		this.seJuegaConPocimas = seJuegaConPocimas;
 	}
 
-	public ArrayList<String> getEstrategias() {
-		return new ArrayList<String> (this.estrategiasJuego);
+	public ArrayList<Estrategia> getEstrategias() {
+		return new ArrayList<Estrategia> (this.estrategiasJuego);
 	}
 	
 	//------------- METODOS Y FUNCIONES -------------

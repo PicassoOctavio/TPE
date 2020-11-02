@@ -3,14 +3,13 @@ import java.util.ArrayList;
 public class Carta {
 	private String nombrePersonaje;
 	private ArrayList<Atributo> atributos;
-	private ElementoPocima pocima;
+	private Pocima pocima;
 	
 	public Carta(String nombrePersonaje) {
 		this.nombrePersonaje = nombrePersonaje;
 		atributos = new ArrayList<Atributo>();
 		this.pocima = null;
 	}
-	//por cada atributo pregunto a la carta si tiene atributo
 	
 	public String toString() {
 		return this.getNombrePersonaje().toUpperCase() + "    "+ atributos.toString();
@@ -24,11 +23,6 @@ public class Carta {
 		for(int i =0; i < listaUno.size(); i++) {
 			if(!listaDos.contains(listaUno.get(i)))
 				return false;									//no son objects atributo
-			//if(!listaUno.get(i).equals(listaDos.get(contador)))//donde defino el equals si son strings?
-			/*else {
-				contador++;
-				i = 0;
-			}// CORREGIR*/
 		}
 		return true;	
 	}
@@ -82,16 +76,20 @@ public class Carta {
 		this.nombrePersonaje = nombrePersonaje;
 	}
 
-	public ElementoPocima getPocima() {
+	public Pocima getPocima() {
 		return pocima;
 	}
 
-	public void setPocima(ElementoPocima pocima) {
+	public void setPocima(Pocima pocima) {
 		this.pocima = pocima;
 	}
 	
 	public boolean tienePocima() {
 		return this.pocima != null;
+	}
+	
+	public void borrarPocima() {
+		this.pocima = null;
 	}
 	
 }

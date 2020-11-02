@@ -1,41 +1,34 @@
-import java.util.ArrayList;
 
-public class Cocktail extends ElementoPocima {
-	private ArrayList<ElementoPocima> elementos;
+public class Cocktail extends Pocima {
+	Pocima p1;
+	Pocima p2;
 	
-	public Cocktail(String nombre) {
+	public Cocktail(String nombre, Pocima p1, Pocima p2) {
 		super(nombre);
-		elementos = new ArrayList<ElementoPocima>();
+		this.p1 = p1;
+		this.p2 = p2;
 	}
 	
-	public void addElemento(ElementoPocima e) {
-		elementos.add(e);
+	@Override
+	public int modificarValor(Atributo atributo) {
+		Atributo a = new Atributo (atributo.getNombre(), p1.modificarValor(atributo));
+		Atributo b = new Atributo (atributo.getNombre(), p2.modificarValor(a));
+		return b.getValor();
 	}
 
-	@Override
-	public boolean getCantMinimaPocimas() {
-		// TODO Auto-generated method stub
-		return false;
+	public Pocima getP1() {
+		return p1;
 	}
 
-	@Override
-	public boolean cumple(Filtro f) {
-		// TODO Auto-generated method stub
-		return false;
+	public void setP1(Pocima p1) {
+		this.p1 = p1;
 	}
-	//valor atributo ORIGINAL 100
-	//valor atributo 100 + %35 psf | valor atributo  135
-	//valor attributo 135 + %20 fortalecedora | valor atributo  162
-	// valor atributo 162 + %45 
-	
-	//cocktail tiene:
-	// psf |  fortalecedora | reductor plomo | vale cuatro
-	
-	@Override
-	public int modificarAtributo(int valorAtributo, String nombreAtributo) {
-		for(ElementoPocima pocima: this.elementos) {
-			valorAtributo = pocima.modificarAtributo(valorAtributo, nombreAtributo);
-		}
-		return valorAtributo;
+
+	public Pocima getP2() {
+		return p2;
+	}
+
+	public void setP2(Pocima p2) {
+		this.p2 = p2;
 	}
 }
