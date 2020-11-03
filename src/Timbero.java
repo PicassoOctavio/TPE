@@ -10,3 +10,6 @@ public class Timbero implements Estrategia{
 	}
 
 }
+
+
+//se podria tener una pocima nula, que no modifica

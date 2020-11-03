@@ -10,8 +10,7 @@ public class Jugador implements Estrategia{
 		cartasJugador = new ArrayList<Carta>();
 	}
 	
-	//public los metodos que usa otra clase
-	protected int cantidadCartas() {
+	public int cantidadCartas() {
 		return cartasJugador.size();
 	}
 	
@@ -21,25 +20,25 @@ public class Jugador implements Estrategia{
 		cartaAux.setPocima(pocima);//carta tiene Pocima, no elementoPocima
 	}
 	
-	protected void recibirCarta(Carta unaCarta) {
+	public void recibirCarta(Carta unaCarta) {
 		cartasJugador.add(unaCarta);
 	}
 	
-	public void removerCarta() {
+	private void removerCarta() {
 		cartasJugador.remove(cartasJugador.get(0));
 	}
 	
-	protected Carta elegirPrimerCarta() {
+	public Carta elegirPrimerCarta() {
 		return cartasJugador.get(0);
 	}
 	
-	protected Carta darCarta() {
+	public Carta darCarta() {
 		Carta c = this.cartasJugador.get(0);
 		this.removerCarta();
 		return c;
 	}
 	
-	protected void enviarCartaAlFondo() {
+	public void enviarCartaAlFondo() {
 		recibirCarta(cartasJugador.get(0));
 		removerCarta();
 	}
@@ -48,10 +47,7 @@ public class Jugador implements Estrategia{
 	public Atributo elegirAtributo(Carta carta) {
 		return estrategia.elegirAtributo(carta);
 	}
-	
-	
-
-	protected Atributo empezarRonda() {
+	public Atributo empezarRonda() {
 		Carta primerCartaJ1 = this.elegirPrimerCarta();
 		//if(primerCartaJ1.tienePocima())	
 		Atributo atributoSeleccionado = this.elegirAtributo(primerCartaJ1);
@@ -82,22 +78,22 @@ public class Jugador implements Estrategia{
 		return nombrePocima;
 	}
 	
-	public void borrarPocima(Carta c) {
+	private void borrarPocima(Carta c) {
 		c.borrarPocima();
 	}
 	
-	protected int obtenerValorAtributo() {
+	public int obtenerValorAtributo() {
 		Atributo a = this.empezarRonda();
 		return a.getValor();
 	}
 	
-	protected int valorAtributoTurnoDos(Atributo atributo) {
+	public int valorAtributoTurnoDos(Atributo atributo) {
 		Carta primerCartaJ2 = this.elegirPrimerCarta();
 		int valorJugadorDos = primerCartaJ2.getValorAtributoPorNombre(atributo.getNombre());
 		return valorJugadorDos;
-	}
+	} 
 	
-	protected boolean tieneCartas() {
+	public boolean tieneCartas() {
 		if(cartasJugador.size() > 0)
 			return true;
 		else

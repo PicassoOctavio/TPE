@@ -25,34 +25,29 @@ public class Juego {
 		pocimas = new ArrayList<Pocima>();
 		estrategiasJuego = new ArrayList<Estrategia>();
 	}
-	//variable jugador turno que va cambiando segun el turno
-	
 	//FALTA CONTROLAR EMPATE
 	//FALTA COMPROBAR CANT POCIMAS
 	
 	// INICIA JUEGO
-	public void repartirCartas(){
-		//si se juega con pocimas
-		// y si hay por le menos dos de cada pocima 	
+	public void repartirCartas(){ 	
 		mazo.darCartas(jugador1, jugador2);
-		if(seJuegaConPocimas())
+		if(seJuegaConPocimas()) {
 			mezclarPocimas();
 			repartirPocimas();
+		}
 	}	
 	
 	public void addEstrategia(Estrategia estrategia) {
 		if(estrategia != null) {
 			estrategiasJuego.add(estrategia);
-			//if(!estrategiasJuego.contains(estrategia))
 		}
 	}
-	
 	
 	//COMPARAR
 	public void comparar() {
 		while(!juegoTerminado()) {
 			cantTurnos--;
-			nroRonda++;//no lo estamos usando
+			nroRonda++;
 			Atributo atributoJPri = jugadorTurno.empezarRonda();
 			String nombreAtributo = atributoJPri.getNombre();
 			int valorAtributoJSeg = jugadorTurnoDos.valorAtributoTurnoDos(atributoJPri);	
@@ -72,23 +67,21 @@ public class Juego {
 				String nombrePocimaJTD = jugadorTurnoDos.getNombrePocima();
 				imprimirAccionPocima(nombrePocimaJTD, valorAtributoConPocimaJTdos);
 				valorAtributoJSeg = valorAtributoConPocimaJTdos;
-			}
-			
-			//imprimirAccionJugador(jugadorTurno, nombreAtributo, valorAtributoJpri);
-			//imprimirAccionJugador(jugadorTurnoDos, nombreAtributo, valorAtributoJSeg);
-				
-			// falta la comparacion con atributosModificados con pocima
-			
+			}	
 			Jugador ganador = ganadorRonda(valorAtributoJpri, valorAtributoJSeg);
 			Jugador perdedor = perdedorRonda(valorAtributoJpri, valorAtributoJSeg);
 			if(ganador != null && perdedor != null) {
-				//imprimirGanadorRonda(ganador);	
 				ganador.recibirCarta(perdedor.darCarta());
 				ganador.enviarCartaAlFondo();
 				imprimirEstadoCartas(ganador, perdedor);
 				imprimirGanadorRonda(ganador);
 				setJugadorTurno(ganador);
 				setJugadorTurnoDos(perdedor);
+			}
+			else {//EMPATE
+				jugadorTurno.enviarCartaAlFondo();
+				jugadorTurnoDos.enviarCartaAlFondo();
+				imprimirEmpate();
 			}
 		}
 		Jugador ganoJuego = chequearGanador();
@@ -110,7 +103,7 @@ public class Juego {
 		}
 	}
 	
-	private boolean juegoTerminado(){//jugador devuelve cant cartas ó boolean si le quedan cartas
+	private boolean juegoTerminado(){
 		if((!jugador1.tieneCartas() || !jugador2.tieneCartas()) 
 				|| noHayMasTurnos())
 			return true;
@@ -143,7 +136,7 @@ public class Juego {
 			return null;
 	}
 	//----------------------------- POCIMAS --------------------------------------------
-	public void repartirPocimas() {
+	private void repartirPocimas() {
 		for(int i= 0; i< pocimas.size()-1; i++) {
 			//System.out.println(cartas.get(i));
 			jugadorTurno.addPocimaAcarta(pocimas.get(i));
@@ -157,34 +150,37 @@ public class Juego {
 	}
 	
 	//-----------------------------    METODOS IMPRIMIR --------------------------------------------
-	public void imprimirNroRonda() {
+	private void imprimirNroRonda() {
 		System.out.println("---------------- RONDA " + nroRonda+" ----------------");
 	}
-	public void imprimirSeleccionJturno(Jugador j, String a) {
+	private void imprimirSeleccionJturno(Jugador j, String a) {
 		System.out.println("El jugador "+j.getNombre().toUpperCase()+" selecciona competir por el atributo "+ a.toUpperCase());
 	}
 	
-	public void imprimirAccionJugador(Jugador j, String a, int valorJpri) {
+	private void imprimirAccionJugador(Jugador j, String a, int valorJpri) {
 		Carta carta = j.elegirPrimerCarta();
 		System.out.println("La carta de "+j.getNombre().toUpperCase()+" es "+carta.getNombrePersonaje()+" con "+a+" "+valorJpri);
 	}
 	
-	public void imprimirAccionPocima(String nombrePocima, int valorAPocima) {
+	private void imprimirAccionPocima(String nombrePocima, int valorAPocima) {
 		System.out.println("se aplicó la pocima "+nombrePocima.toUpperCase()+" valor resultante "+valorAPocima);
 	}
 	
-	public void imprimirGanadorRonda(Jugador ganador) {
+	private void imprimirGanadorRonda(Jugador ganador) {
 		System.out.println("Ganó la ronda " + ganador.getNombre().toUpperCase() +"\n");
 	}
-	public void imprimirEstadoCartas(Jugador ganador, Jugador perdedor) {
+	private void imprimirEstadoCartas(Jugador ganador, Jugador perdedor) {
 		System.out.println(ganador.getNombre().toUpperCase()+" posee ahora "+ganador.cantidadCartas()+" cartas y "+perdedor.getNombre()+" posee "+perdedor.cantidadCartas()+" cartas");
 	}
 	
-	public void imprimirGanadorJuego(Jugador jugador) {
+	private void imprimirGanadorJuego(Jugador jugador) {
 		if(jugador!= null)
 			System.out.println("GANÓ " + jugador.getNombre().toUpperCase() +" :D" );
 		else
 			System.out.println("Empate");
+	}
+	private void imprimirEmpate() {
+			System.out.println("La ronda resultó en EMPATE"+"\n");
 	}
 	public void linea() {
 		System.out.println("--------------------------------------------------------");
@@ -237,59 +233,4 @@ public class Juego {
 	public ArrayList<Estrategia> getEstrategias() {
 		return new ArrayList<Estrategia> (this.estrategiasJuego);
 	}
-	
-	//------------- METODOS Y FUNCIONES -------------
-	//repartirCartas() HECHO
-	//setTurno()
-	//resultadoRonda()
-	
-	//compararCartas()
-	
-	//ganador()
-	
-	//crearMazo()
-	//verificarCartas()
-	
-	//como defino jugadorSinTurno
-	//
-	
-	//---------------------------------------------------------
-	/*if(getTurno() == 1) {
-		Atributo atributoSelec = jugador1.empezarRonda(jugador1); 
-		int valorJugadorUno = atributoSelec.getValor();
-		int valorJugadorDos = jugador2.valorAtributoTurnoDos(jugador2, atributoSelec);
-	}else {
-		Atributo atributoSelec = jugador2.empezarRonda(jugador2); 
-		int valorJugadorDos = atributoSelec.getValor();
-		int valorJugadorUno = jugador1.valorAtributoTurnoDos(jugador1, atributoSelec);
-	}*/
-	//Carta primerCartaJ1 = jugador1.elegirPrimerCarta();
-	//Atributo atributoSeleccionado = jugador1.elegirAtributoRandom(primerCartaJ1);
-	//int valorJugadorUno = atributoSeleccionado.getValor();
-	//Carta primerCartaJ2 = jugador2.elegirPrimerCarta();
-	//int valorJugadorDos = primerCartaJ2.getValorAtributoPorNombre(atributoSeleccionado.getNombre());
-	
-	//definirGanadorRonda()
-	/*if(valorJugadorUno > valorJugadorDos) {
-		System.out.println("Ganó la ronda " + jugador1.getName());
-		jugador1.recibirCarta(primerCartaJ2);
-		jugador2.removerCarta();
-	}
-	if(valorJugadorUno < valorJugadorDos) {
-		System.out.println("Ganó la ronda " + jugador2.getName());
-		jugador2.recibirCarta(primerCartaJ1);
-		jugador1.removerCarta();
-	}
-	else {
-		jugador1.recibirCarta(primerCartaJ1);
-		jugador1.removerCarta();
-		jugador2.recibirCarta(primerCartaJ2);
-		jugador2.removerCarta();
-	}
-}else {
-	Jugador ganador = chequearGanador();
-	imprimirGanador(ganador);
-}*/
-//las cartas al fonfo del mazo
-//está haciendo mucho éste metodo, hay que delegar tareas.
 }

@@ -12,25 +12,13 @@ public class Mazo {
 		cartas = new ArrayList<Carta>();
 	};
 	
-	//crearMazo() HECHO
-	//verificarCartas() HECHO
-	//getTamañoMazo() HECHO
-	//darPrimerCarta() HECHO
-	//guardarCartaAlFinal() HECHO
-	
-	// hacer el mostrarCarta();
-	
 	public void chequearMazo() {
 		for(int i=0; i< cartas.size();i++) {
 			Carta carta = cartas.get(0);
 			Carta cartaAux = cartas.get(i);
-			if(!carta.esDelMismoTipo(cartaAux))	// esta bien pasarle la misma carta?
+			if(!carta.esDelMismoTipo(cartaAux))
 				cartas.remove(i);
 		}
-	}//hacer metodo borrarCarta() que no pertenece
-	
-	public void linea() {
-		System.out.println("--------------------------------------------------------");
 	}
 	
 	public void mostrarMazo() {
@@ -43,7 +31,6 @@ public class Mazo {
 	public String toString(Carta carta){
         return carta.toString();
     }
-
 	
 	public ArrayList<Carta> getMazo(){
 		return new ArrayList<Carta>(this.cartas);
@@ -75,16 +62,9 @@ public class Mazo {
 		if(!cartas.contains(unaCarta)) {
 			cartas.add(unaCarta);
 		}
-		//si el mazo esta vacio agrego HECHO
-		//si ya tiene una carta, verificar que sean iguales HECHO con equals
+	}
+	public void linea() {
+		System.out.println("--------------------------------------------------------");
 	}
 	
-	//SETS AND GETS
-	/*public int getCantAtributos() {
-		return cantAtributos;
-	}
-
-	public void setCantAtributos(int cantAtributos) {
-		this.cantAtributos = cantAtributos;
-	}*/
 }

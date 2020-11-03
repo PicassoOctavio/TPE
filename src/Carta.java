@@ -15,14 +15,14 @@ public class Carta {
 		return this.getNombrePersonaje().toUpperCase() + "    "+ atributos.toString();
 	}
 	
-	public boolean esDelMismoTipo(Carta unaCarta) { 		//CONSULTAR SI ESTA BIEN!
+	public boolean esDelMismoTipo(Carta unaCarta) { 	
 		ArrayList<String> listaUno = new ArrayList<String>();
 		ArrayList<String> listaDos = new ArrayList<String>();
 		listaUno = unaCarta.getNombreAtributos();
 		listaDos = this.getNombreAtributos();
 		for(int i =0; i < listaUno.size(); i++) {
 			if(!listaDos.contains(listaUno.get(i)))
-				return false;									//no son objects atributo
+				return false;									
 		}
 		return true;	
 	}

@@ -13,20 +13,17 @@ public class Main {
         String mazoPath = "./src/superheroes.json";
 
         Mazo mazo = cargarMazo(mazoPath);
-        mazo.mostrarMazo(); //HACER ESTE METODO
+        mazo.mostrarMazo(); 
         mazo.chequearMazo();
         mazo.linea();
-        mazo.mostrarMazo(); //HACER ESTE METODO
+        mazo.mostrarMazo(); 
         
         Jugador gian = new Jugador("gian");
         Jugador octi = new Jugador("octi");
-        
-        Juego juego = new Juego(200, octi, gian, mazo, octi, gian, true);
-        
+        Juego juego = new Juego(90, octi, gian, mazo, octi, gian, true);
         Timbero timbero = new Timbero(); 
         Ambicioso ambicioso = new Ambicioso(); 
         Obstinado obstinado = new Obstinado(); 
-        
         PocimaIncrementadora fortalecedora = new PocimaIncrementadora("fortalecedora", 20);
         PocimaIncrementadora fortalecedoraDos = new PocimaIncrementadora("fortalecedora", 30);
         PocimaIncrementadora fortalecedoraPlus = new PocimaIncrementadora("fortalecedoraPlus", 50);
@@ -39,10 +36,10 @@ public class Main {
         PocimaValorFijo valeCuatroDos = new PocimaValorFijo("valeCuatro", 6);
         PocimaValorFijo numeroMagico = new PocimaValorFijo("numeroMagico", 23);
         PocimaValorFijo numeroMagicoDos = new PocimaValorFijo("numeroMagico", 24);
-        PocimaSelectiva PSF = new PocimaSelectiva("PSF", "fuerza", 35);
-        PocimaSelectiva PSFdos = new PocimaSelectiva("PSF", "fuerza", 36);
-        PocimaSelectiva PSP = new PocimaSelectiva("PSP", "peso", 43);
-        PocimaSelectiva PSPdos = new PocimaSelectiva("PSP", "peso", 44);
+        PocimaSelectiva PSF = new PocimaSelectiva("Selectiva Fuerza", "fuerza", 35);
+        PocimaSelectiva PSFdos = new PocimaSelectiva("Selectiva Fuerza", "fuerza", 36);
+        PocimaSelectiva PSP = new PocimaSelectiva("Selectiva Peso", "peso", 43);
+        PocimaSelectiva PSPdos = new PocimaSelectiva("Selectiva Peso", "peso", 44);
         Cocktail cocktail = new Cocktail("cocktail", fortalecedora, fortalecedoraPlus);
         Cocktail cocktailDos = new Cocktail("cocktail", kriptonita, reductorPlomo);   
         juego.addEstrategia(timbero);
@@ -67,10 +64,9 @@ public class Main {
         juego.addPocima(cocktail);
         juego.addPocima(cocktailDos);
         gian.setEstrategia(ambicioso);
-        octi.setEstrategia(obstinado);
+        octi.setEstrategia(ambicioso);
         juego.repartirCartas();
         juego.comparar();
-        //mazo.getCantCartas();
     }
     
     public static Mazo cargarMazo(String jsonFile) {
