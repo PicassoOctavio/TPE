@@ -10,7 +10,7 @@ public class Cocktail extends Pocima {
 	}
 	
 	@Override
-	public int modificarValor(Atributo atributo) {
+	public double modificarValor(Atributo atributo) {
 		Atributo a = new Atributo (atributo.getNombre(), p1.modificarValor(atributo));
 		Atributo b = new Atributo (atributo.getNombre(), p2.modificarValor(a));
 		return b.getValor();

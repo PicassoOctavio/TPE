@@ -15,6 +15,31 @@ public class Carta {
 		return this.getNombrePersonaje().toUpperCase() + "    "+ atributos.toString();
 	}
 	
+	//----------------------------------
+	public Carta compararCartas(Carta cartaJT2, String nombreAtributo) {
+		double valorJT1 = this.getValorAtributoPorNombre(nombreAtributo);
+		double valorJT2 = cartaJT2.getValorAtributoPorNombre(nombreAtributo);
+		if(this.tienePocima()) {
+			double valorJT1masPocima = this.aplicarPocima(valorJT1, nombreAtributo);
+			valorJT1 = valorJT1masPocima;
+		}
+		if(cartaJT2.tienePocima()) {
+			double valorJT1masPocima = cartaJT2.aplicarPocima(valorJT1, nombreAtributo);
+			valorJT2 = valorJT1masPocima;
+		}
+		return compararValores(valorJT1, valorJT2, cartaJT2);
+	}
+	
+	public Carta compararValores(double valorJT1, double valorJT2, Carta cartaJT2) {
+		if(valorJT1 > valorJT2) 
+			return this;
+		if(valorJT1 < valorJT2)
+			return cartaJT2;
+		else
+			return null;
+	}
+	//----------------------------------
+	
 	public boolean esDelMismoTipo(Carta unaCarta) { 	
 		ArrayList<String> listaUno = new ArrayList<String>();
 		ArrayList<String> listaDos = new ArrayList<String>();
@@ -27,7 +52,7 @@ public class Carta {
 		return true;	
 	}
 	
-	public int getValorAtributoPorNombre(String atributo) {
+	public double getValorAtributoPorNombre(String atributo) {
 		for(int i=0; i<atributos.size(); i++) {
 			Atributo atributoAux = atributos.get(i);
 			if(atributoAux.getNombre().equals(atributo))
@@ -66,7 +91,44 @@ public class Carta {
 	public ArrayList<Atributo> getAtributos() {
 		return new ArrayList<Atributo> (this.atributos);
 	}
+	//------------- NUEVOS -----------------
+	public Atributo getAtributoMaxValor() {
+		Atributo aux = new Atributo(null, 0);
+		for(Atributo atributo: atributos){
+			if (atributo.getValor() > aux.getValor())
+				aux = atributo;
+		}
+		return aux;
+	}
+	
+	public Atributo getAtributoRandom() {
+		int i = (int) Math.floor(Math.random() * atributos.size());
+		return this.atributos.get(i);
+	}
 		
+	public Atributo getAtributoObstinado() {
+		return atributos.get(0);
+	}
+	
+	//---------------------------------
+	public double aplicarPocima(double valorAtributoJpri, String nombreAtributo) {
+		Atributo atributo = new Atributo(nombreAtributo, valorAtributoJpri);
+		double valorAtributoConPocima = pocima.modificarValor(atributo);
+		return valorAtributoConPocima;
+	}
+	
+	public String getDatosPocima(String nombreAtributo) {
+		Pocima p = this.getPocima();
+		String nombrePocima = p.getNombre();
+		double valorAtributoJpri = this.getValorAtributoPorNombre(nombreAtributo);
+		double valorAPocima = this.aplicarPocima(valorAtributoJpri, nombreAtributo);
+		return devolverDatosPocima(nombrePocima, valorAPocima);
+	}
+	
+	public String devolverDatosPocima(String nombrePocima, double valorAPocima) {
+		return "se aplicó la pocima "+nombrePocima.toUpperCase()+" valor resultante "+valorAPocima;
+	}
+	
 	//GETS AND SETS
 	public String getNombrePersonaje() {
 		return nombrePersonaje;

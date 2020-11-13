@@ -1,26 +1,17 @@
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-
 public class Main {
     public static void main(String[] args) {
         String mazoPath = "./src/superheroes.json";
 
-        Mazo mazo = cargarMazo(mazoPath);
-        mazo.mostrarMazo(); 
-        mazo.chequearMazo();
-        mazo.linea();
-        mazo.mostrarMazo(); 
+        Mazo mazo = new Mazo();
+        mazo.cargarMazo(mazoPath);
+        //mazo.mostrarMazo(); 
+        //mazo.chequearMazo();
+        //mazo.linea();
+        //mazo.mostrarMazo(); 
         
         Jugador gian = new Jugador("gian");
         Jugador octi = new Jugador("octi");
-        Juego juego = new Juego(90, octi, gian, mazo, octi, gian, true);
+        Juego juego = new Juego(90, octi, gian, mazo, true);
         Timbero timbero = new Timbero(); 
         Ambicioso ambicioso = new Ambicioso(); 
         Obstinado obstinado = new Obstinado(); 
@@ -42,9 +33,6 @@ public class Main {
         PocimaSelectiva PSPdos = new PocimaSelectiva("Selectiva Peso", "peso", 44);
         Cocktail cocktail = new Cocktail("cocktail", fortalecedora, fortalecedoraPlus);
         Cocktail cocktailDos = new Cocktail("cocktail", kriptonita, reductorPlomo);   
-        juego.addEstrategia(timbero);
-        juego.addEstrategia(ambicioso);
-        juego.addEstrategia(obstinado);
         juego.addPocima(fortalecedora);
         juego.addPocima(fortalecedoraDos);
         juego.addPocima(fortalecedoraPlus);
@@ -63,13 +51,13 @@ public class Main {
         juego.addPocima(PSPdos);
         juego.addPocima(cocktail);
         juego.addPocima(cocktailDos);
-        gian.setEstrategia(ambicioso);
+        gian.setEstrategia(timbero);
         octi.setEstrategia(ambicioso);
         juego.repartirCartas();
         juego.comparar();
     }
     
-    public static Mazo cargarMazo(String jsonFile) {
+    /*public static Mazo cargarMazo(String jsonFile) {
         //URL url = getClass().getResource(jsonFile);
         File jsonInputFile = new File(jsonFile);
         InputStream is;
@@ -101,7 +89,7 @@ public class Main {
             e.printStackTrace();
             return mazo;
         }
-    }
+    }*/
 }
 
     

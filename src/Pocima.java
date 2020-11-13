@@ -6,7 +6,7 @@ public abstract class Pocima {
 		this.nombre = nombre;
 	}
 	
-	public abstract int modificarValor(Atributo atributo);
+	public abstract double modificarValor(Atributo atributo);
 
 	public String getNombre() {
 		return nombre;

@@ -1,30 +1,30 @@
 
 public class PocimaSelectiva extends Pocima {
 	private String nombreAtributo;
-	private int valor;
+	private double valor;
 	
 	
-	public PocimaSelectiva(String nombre, String nombreAtributo, int valor) {
+	public PocimaSelectiva(String nombre, String nombreAtributo, double valor) {
 		super(nombre);
 		this.nombreAtributo = nombreAtributo;
 		this.valor = valor;
 	}
 
 	@Override
-	public int modificarValor(Atributo atributo) {
+	public double modificarValor(Atributo atributo) {
 		if(atributo.getNombre().equals(this.getNombreAtributo())) {
-			int valorAtributo = atributo.getValor();
+			double valorAtributo = atributo.getValor();
 			return valorAtributo += valorAtributo * this.getValor() / 100;
 		}
 		else
 			return atributo.getValor();
 	}
 
-	public int getValor() {
+	public double getValor() {
 		return valor;
 	}
 
-	public void setValor(int valor) {
+	public void setValor(double valor) {
 		this.valor = valor;
 	}
 
